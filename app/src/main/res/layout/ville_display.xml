@@ -7,16 +7,57 @@
 
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageButton
-        android:id="@+id/addVille"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="#00FFFFFF"
-        android:layout_gravity="end"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ajouter des Villes"
+            android:textSize="18sp" />
 
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="#003C2C2C"
+            android:text="modifier"
+            android:textSize="14sp" />
+
+        <ImageButton
+            android:id="@+id/addVille"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#00FFFFFF"
+            android:layout_gravity="end"
+
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+
+    <ScrollView
+        android:id="@+id/scrollViewVilles"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ListView
+            android:id="@+id/listeViewViles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </ScrollView>
+
+
 
 
 </LinearLayout>
