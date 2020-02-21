@@ -25,6 +25,14 @@ public class ReglageVille extends AppCompatActivity {
                 ReglageVille.this.startActivity(intent);
             }
         });
+
+        ImageButton returnBtn = findViewById(R.id.returnBtn);
+        returnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              finish();
+            }
+        });
        // TextView output = findViewById(R.id.output);
         //Intent intent = getIntent();
         //String text = intent.getExtras().getString(EXTRA_MESSAGE);

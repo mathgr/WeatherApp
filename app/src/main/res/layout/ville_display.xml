@@ -6,10 +6,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/returnBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:background="#00FFFFFF"
+            android:src="@drawable/return_btn">
+
+        </ImageButton>
 
         <TextView
             android:id="@+id/textView"
@@ -31,12 +41,11 @@
             android:id="@+id/addVille"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_margin="10dp"
             android:background="#00FFFFFF"
-            android:layout_gravity="end"
 
             app:srcCompat="@android:drawable/ic_menu_add" />
-
 
 
     </androidx.appcompat.widget.Toolbar>
