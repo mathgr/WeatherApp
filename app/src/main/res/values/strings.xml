@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">WeatherApp</string>
     <string name="reglage_ville" >Ville</string>
+    <string name="humidity_label">Humidité</string>
+    <string name="pressure_label">Pression atmosphérique</string>
+    <string name="wind_direction_label">Direction du vent</string>
+    <string name="uv_index_label">Indice UV</string>
 </resources>
