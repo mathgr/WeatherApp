@@ -19,6 +19,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.weatherapp.services.DownloadImageTask;
 import com.example.weatherapp.services.WeatherClient;
 import com.example.weatherapp.services.weather.CurrentWeatherData;
+import com.example.weatherapp.services.weather.HourWeatherData;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RequestQueue queue;
@@ -43,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 WeatherClient weatherClient= new WeatherClient(response);
                 CurrentWeatherData currentWeatherData = weatherClient.getCurrentWeatherData();
-
-                //TODO extract this initialization into a function
+                ArrayList<HourWeatherData> nextHours = currentWeatherData.getNextHours();
 
                 TextView currentTemperature = findViewById(R.id.current_temperature);
                 ImageView currentConditionIcon = findViewById(R.id.current_condition_icon);
@@ -54,43 +56,15 @@ public class MainActivity extends AppCompatActivity {
                 new DownloadImageTask(currentConditionIcon).execute(currentWeatherData.getIconCondition());
                 currentCondition.setText(currentWeatherData.getCondition());
 
-                View detailsCurrentWeatherGrid = findViewById(R.id.details_current_weather_grid);
+                setUpDetail(R.id.humidity, R.drawable.water, currentWeatherData.getHumidity(), R.string.humidity_label);
+                setUpDetail(R.id.pressure, R.drawable.meter, currentWeatherData.getPressure(), R.string.pressure_label);
+                setUpDetail(R.id.wind_direction, R.drawable.compass, currentWeatherData.getWindDirection(), R.string.wind_direction_label);
+                setUpDetail(R.id.wind_speed, R.drawable.wind, currentWeatherData.getWindSpeed(), R.string.wind_speed_label);
 
-                View humidityView = detailsCurrentWeatherGrid.findViewById(R.id.humidity);
-                ImageView humidityIcon = humidityView.findViewById(R.id.detail_icon);
-                TextView humidityPercentage = humidityView.findViewById(R.id.detail_value);
-                TextView humidityLabel = humidityView.findViewById(R.id.detail_label);
-
-                humidityIcon.setImageResource(R.drawable.water);
-                humidityPercentage.setText(currentWeatherData.getHumidity());
-                humidityLabel.setText(R.string.humidity_label);
-
-                View pressureView = detailsCurrentWeatherGrid.findViewById(R.id.pressure);
-                ImageView pressureIcon = pressureView.findViewById(R.id.detail_icon);
-                TextView pressureValue = pressureView.findViewById(R.id.detail_value);
-                TextView pressureLabel = pressureView.findViewById(R.id.detail_label);
-
-                pressureIcon.setImageResource(R.drawable.meter);
-                pressureValue.setText(currentWeatherData.getPressure());
-                pressureLabel.setText(R.string.pressure_label);
-
-                View windDirectionView = detailsCurrentWeatherGrid.findViewById(R.id.wind_direction);
-                ImageView windDirectionIcon = windDirectionView.findViewById(R.id.detail_icon);
-                TextView windDirectionValue = windDirectionView.findViewById(R.id.detail_value);
-                TextView windDirectionLabel = windDirectionView.findViewById(R.id.detail_label);
-
-                windDirectionIcon.setImageResource(R.drawable.compass);
-                windDirectionValue.setText(currentWeatherData.getWindDirection());
-                windDirectionLabel.setText(R.string.wind_direction_label);
-
-                View windSpeedView = detailsCurrentWeatherGrid.findViewById(R.id.wind_speed);
-                ImageView windSpeedIcon = windSpeedView.findViewById(R.id.detail_icon);
-                TextView windSpeedValue = windSpeedView.findViewById(R.id.detail_value);
-                TextView windSpeedLabel = windSpeedView.findViewById(R.id.detail_label);
-
-                windSpeedIcon.setImageResource(R.drawable.wind);
-                windSpeedValue.setText(currentWeatherData.getWindSpeed());
-                windSpeedLabel.setText(R.string.wind_speed_label);
+                setUpNextHour(R.id.next_hour_1, nextHours.get(0));
+                setUpNextHour(R.id.next_hour_2, nextHours.get(1));
+                setUpNextHour(R.id.next_hour_3, nextHours.get(2));
+                setUpNextHour(R.id.next_hour_4, nextHours.get(3));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -99,5 +73,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         this.queue.add(stringRequest);
+    }
+
+    private void setUpDetail(int idRes, int idResDrawable, String dataToSetUp, int idResLabel) {
+        View detailsCurrentWeatherGrid = findViewById(R.id.details_current_weather_grid);
+
+        View viewDetail = detailsCurrentWeatherGrid.findViewById(idRes);
+        ImageView icon = viewDetail.findViewById(R.id.detail_icon);
+        TextView data = viewDetail.findViewById(R.id.detail_value);
+        TextView label = viewDetail.findViewById(R.id.detail_label);
+
+        icon.setImageResource(idResDrawable);
+        data.setText(dataToSetUp);
+        label.setText(idResLabel);
+    }
+
+    private void setUpNextHour(int idRes, HourWeatherData nextHourData) {
+        View nextHourWeather = findViewById(idRes);
+        TextView hour = nextHourWeather.findViewById(R.id.hour);
+        ImageView iconCondition = nextHourWeather.findViewById(R.id.condition_icon);
+        TextView condition = nextHourWeather.findViewById(R.id.condition);
+        TextView temperature = nextHourWeather.findViewById(R.id.temperature);
+
+        hour.setText(nextHourData.getHour());
+        new DownloadImageTask(iconCondition).execute(nextHourData.getIconCondition());
+        condition.setText(nextHourData.getCondition());
+        temperature.setText(nextHourData.getTemperature());
     }
 }

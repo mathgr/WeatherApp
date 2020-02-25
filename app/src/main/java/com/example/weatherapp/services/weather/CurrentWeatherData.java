@@ -5,6 +5,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -22,6 +23,10 @@ public class CurrentWeatherData {
     private String iconCondition;
     private String dayShort;
 
+    private Date currentDate = null;
+
+    private ArrayList<HourWeatherData> nextHours;
+
     public CurrentWeatherData(JSONObject jsonResponse) {
         try {
             JSONObject city = jsonResponse.getJSONObject("city_info");
@@ -34,12 +39,9 @@ public class CurrentWeatherData {
 
             JSONObject hourlyDataCurrentDay = currentDay.getJSONObject("hourly_data");
 
-            Date currentDate = new Date();
-            Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTime(currentDate);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int currentHour = getCurrentHour();
 
-            JSONObject currentHourData = hourlyDataCurrentDay.getJSONObject(hour + "H00");
+            JSONObject currentHourData = hourlyDataCurrentDay.getJSONObject(currentHour + "H00");
             this.temperature = currentHourData.getString("TMP2m");
             this.humidity = currentHourData.getString("RH2m");
             this.pressure = currentHourData.getString("PRMSL");
@@ -47,6 +49,18 @@ public class CurrentWeatherData {
             this.windSpeed = currentHourData.getString("WNDSPD10m");
             this.condition = currentHourData.getString("CONDITION");
             this.iconCondition = currentHourData.getString("ICON");
+
+            //TODO refactor
+
+            nextHours = new ArrayList<>();
+
+            int nextHour;
+            int day;
+            for (int i = 1; i <= 4; i++) {
+                nextHour = getNextHourInteger(i);
+                day = getDayPositionInFunctionOfNumberOfHourToAddToTheCurrentDate(i);
+                nextHours.add(new HourWeatherData(Integer.toString(nextHour), jsonResponse.getJSONObject("fcst_day_" + day).getJSONObject("hourly_data").getJSONObject(nextHour + "H00")));
+            }
         } catch (JSONException e) {
             Log.e("CurrentWeatherData", e.getMessage());
         }
@@ -94,5 +108,46 @@ public class CurrentWeatherData {
 
     public String getDayShort() {
         return dayShort;
+    }
+
+    public ArrayList<HourWeatherData> getNextHours() {
+        return nextHours;
+    }
+
+    private Date getCurrentDate() {
+        if (currentDate != null) {
+            return currentDate;
+        }
+
+        Date currentDate = new Date();
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(currentDate);
+
+        return new Date();
+    }
+
+    private int getCurrentHour() {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(getCurrentDate());
+
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    private int getNextHourInteger(int hourToAdd) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(getCurrentDate());
+        calendar.add(Calendar.HOUR_OF_DAY, hourToAdd);
+
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    private int getDayPositionInFunctionOfNumberOfHourToAddToTheCurrentDate(int hourToAdd) {
+        int dayToAdd = hourToAdd / 24;
+
+        if (getCurrentHour() > getNextHourInteger(hourToAdd)) {
+            dayToAdd++;
+        }
+
+        return dayToAdd;
     }
 }
