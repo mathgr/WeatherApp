@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
                 windDirectionValue.setText(weatherClient.getWindDirection());
                 windDirectionLabel.setText(R.string.wind_direction_label);
 
-                View uvIndexView = detailsCurrentWeatherGrid.findViewById(R.id.uv_index);
-                ImageView uvIndexIcon = uvIndexView.findViewById(R.id.detail_icon);
-                TextView uvIndexValue = uvIndexView.findViewById(R.id.detail_value);
-                TextView uvIndexLabel = uvIndexView.findViewById(R.id.detail_label);
+                View windSpeedView = detailsCurrentWeatherGrid.findViewById(R.id.wind_speed);
+                ImageView windSpeedIcon = windSpeedView.findViewById(R.id.detail_icon);
+                TextView windSpeedValue = windSpeedView.findViewById(R.id.detail_value);
+                TextView windSpeedLabel = windSpeedView.findViewById(R.id.detail_label);
 
-                uvIndexIcon.setImageResource(R.drawable.uv);
-                uvIndexValue.setText("Très faible");
-                uvIndexLabel.setText(R.string.uv_index_label);
+                windSpeedIcon.setImageResource(R.drawable.wind);
+                windSpeedValue.setText(weatherClient.getWindSpeed());
+                windSpeedLabel.setText(R.string.wind_speed_label);
             }
         }, new Response.ErrorListener() {
             @Override

@@ -24,7 +24,7 @@
         android:layout_row="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/wind_direction" />
+        android:id="@+id/wind_speed" />
 
     <include
         layout="@layout/detail_current_weather"
@@ -32,6 +32,6 @@
         android:layout_row="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/uv_index" />
+        android:id="@+id/wind_direction" />
 
 </GridLayout>
