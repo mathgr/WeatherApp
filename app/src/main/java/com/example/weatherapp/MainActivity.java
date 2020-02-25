@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.weatherapp.services.DownloadImageTask;
 import com.example.weatherapp.services.WeatherClient;
+import com.example.weatherapp.services.weather.CurrentWeatherData;
 
 public class MainActivity extends AppCompatActivity {
     RequestQueue queue;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 WeatherClient weatherClient= new WeatherClient(response);
+                CurrentWeatherData currentWeatherData = weatherClient.getCurrentWeatherData();
 
                 //TODO extract this initialization into a function
 
@@ -48,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
                 ImageView currentConditionIcon = findViewById(R.id.current_condition_icon);
                 TextView currentCondition = findViewById(R.id.current_condition);
 
-                currentTemperature.setText(weatherClient.getTemperature());
-                new DownloadImageTask(currentConditionIcon).execute(weatherClient.getIconCondition());
-                currentCondition.setText(weatherClient.getCondition());
+                currentTemperature.setText(currentWeatherData.getTemperature());
+                new DownloadImageTask(currentConditionIcon).execute(currentWeatherData.getIconCondition());
+                currentCondition.setText(currentWeatherData.getCondition());
 
                 View detailsCurrentWeatherGrid = findViewById(R.id.details_current_weather_grid);
 
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView humidityLabel = humidityView.findViewById(R.id.detail_label);
 
                 humidityIcon.setImageResource(R.drawable.water);
-                humidityPercentage.setText(weatherClient.getHumidity());
+                humidityPercentage.setText(currentWeatherData.getHumidity());
                 humidityLabel.setText(R.string.humidity_label);
 
                 View pressureView = detailsCurrentWeatherGrid.findViewById(R.id.pressure);
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView pressureLabel = pressureView.findViewById(R.id.detail_label);
 
                 pressureIcon.setImageResource(R.drawable.meter);
-                pressureValue.setText(weatherClient.getPressure());
+                pressureValue.setText(currentWeatherData.getPressure());
                 pressureLabel.setText(R.string.pressure_label);
 
                 View windDirectionView = detailsCurrentWeatherGrid.findViewById(R.id.wind_direction);
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView windDirectionLabel = windDirectionView.findViewById(R.id.detail_label);
 
                 windDirectionIcon.setImageResource(R.drawable.compass);
-                windDirectionValue.setText(weatherClient.getWindDirection());
+                windDirectionValue.setText(currentWeatherData.getWindDirection());
                 windDirectionLabel.setText(R.string.wind_direction_label);
 
                 View windSpeedView = detailsCurrentWeatherGrid.findViewById(R.id.wind_speed);
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView windSpeedLabel = windSpeedView.findViewById(R.id.detail_label);
 
                 windSpeedIcon.setImageResource(R.drawable.wind);
-                windSpeedValue.setText(weatherClient.getWindSpeed());
+                windSpeedValue.setText(currentWeatherData.getWindSpeed());
                 windSpeedLabel.setText(R.string.wind_speed_label);
             }
         }, new Response.ErrorListener() {
