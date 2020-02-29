@@ -1,7 +1,10 @@
 package com.example.weatherapp;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -24,6 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,12 +58,20 @@ public class AjoutVille extends AppCompatActivity {
             }
         });
 
+        final TextView villeAfficher = findViewById(R.id.villeRechercher);
+        villeAfficher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               if(villeAfficher.getText()!=null) {
+                   Log.i("enregistrement", "ville : " + villeAfficher.getText());
 
-
-
+               }}
+        });
 
 
     }
+
+
 
     private void rechercher(String nomVille) {
         this.queue= Volley.newRequestQueue(this);
@@ -67,7 +81,6 @@ public class AjoutVille extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.i(TAG,"Response" + response);
-
 
                         try{
                             final TextView villeRechercher = findViewById(R.id.villeRechercher);

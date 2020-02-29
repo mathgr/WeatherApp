@@ -1,0 +1,11 @@
+{
+  "villes" : [
+    {
+      "name": "Montpellier"
+
+    },
+    {
+      "name" : "Lyon"
+    }
+  ]
+}

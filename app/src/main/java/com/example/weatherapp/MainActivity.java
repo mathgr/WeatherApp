@@ -3,7 +3,9 @@ package com.example.weatherapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -22,6 +24,7 @@ import com.example.weatherapp.services.weather.CurrentWeatherData;
 import com.example.weatherapp.services.weather.HourWeatherData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RequestQueue queue;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         ImageButton ville = findViewById(R.id.ville);
 
@@ -41,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         this.queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://www.prevision-meteo.ch/services/json/montpellier", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://www.prevision-meteo.ch/services/json/"+"Montpellier", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 WeatherClient weatherClient= new WeatherClient(response);
@@ -87,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         data.setText(dataToSetUp);
         label.setText(idResLabel);
     }
+
+
 
     private void setUpNextHour(int idRes, HourWeatherData nextHourData) {
         View nextHourWeather = findViewById(idRes);
