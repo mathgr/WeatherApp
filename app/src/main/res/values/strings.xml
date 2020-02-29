@@ -5,6 +5,7 @@
     <string name="pressure_label">Pression atmosphérique</string>
     <string name="wind_direction_label">Direction du vent</string>
     <string name="wind_speed_label">Vitesse du vent</string>
+    <string name="update_weather_data_success">Mise à jour des données effectuées.</string>
     <string name="today">Aujourd\'hui</string>
     <string name="next_days">Les prochains jours</string>
     <string name="detailed_information">Informations détaillés</string>

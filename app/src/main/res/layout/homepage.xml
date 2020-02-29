@@ -18,13 +18,23 @@
             android:layout_weight="1"
             android:id="@+id/current_city_name" />
 
-        <ImageButton
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/refresh"
+            android:adjustViewBounds="true"
+            android:maxWidth="24dp"
+            android:id="@+id/refresh_weather_data" />
+
+        <ImageView
             android:id="@+id/ville"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@android:drawable/ic_menu_preferences"
-            app:srcCompat="@android:drawable/ic_menu_preferences" />
+            android:layout_margin="20dp"
+            android:src="@drawable/settings"
+            android:adjustViewBounds="true"
+            android:maxWidth="24dp"/>
 
     </LinearLayout>
 

@@ -23,6 +23,7 @@ import com.example.weatherapp.services.WeatherClient;
 import com.example.weatherapp.services.weather.CurrentWeatherData;
 import com.example.weatherapp.services.weather.DayWeatherData;
 import com.example.weatherapp.services.weather.HourWeatherData;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +31,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     RequestQueue queue;
 
+    public static String city = "montpellier";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
-        ImageButton ville = findViewById(R.id.ville);
+        setContentView(R.layout.main);
+        ImageView ville = findViewById(R.id.ville);
 
         ville.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +48,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadDataFromApi("montpellier");
+        ImageView refreshData = findViewById(R.id.refresh_weather_data);
+        refreshData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadDataFromApi(city);
+
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.update_weather_data_success , Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        loadDataFromApi(city);
     }
 
     private void loadDataFromApi(String city) {
