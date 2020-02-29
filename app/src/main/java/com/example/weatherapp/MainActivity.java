@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 CurrentWeatherData currentWeatherData = weatherClient.getCurrentWeatherData();
                 ArrayList<HourWeatherData> nextHours = currentWeatherData.getNextHours();
 
+                TextView currentCity = findViewById(R.id.current_city_name);
+                currentCity.setText(currentWeatherData.getCity());
+
                 TextView currentTemperature = findViewById(R.id.current_temperature);
                 ImageView currentConditionIcon = findViewById(R.id.current_condition_icon);
                 TextView currentCondition = findViewById(R.id.current_condition);

@@ -5,15 +5,28 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-    <ImageButton
-        android:id="@+id/ville"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@android:drawable/ic_menu_preferences"
-        app:srcCompat="@android:drawable/ic_menu_preferences"
-        android:layout_gravity="end"/>
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/current_city_name" />
+
+        <ImageButton
+            android:id="@+id/ville"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@android:drawable/ic_menu_preferences"
+            app:srcCompat="@android:drawable/ic_menu_preferences" />
+
+    </LinearLayout>
 
     <include layout="@layout/current_weather"/>
 
