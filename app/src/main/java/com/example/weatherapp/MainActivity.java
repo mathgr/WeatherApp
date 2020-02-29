@@ -45,8 +45,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        loadDataFromApi("montpellier");
+    }
+
+    private void loadDataFromApi(String city) {
         this.queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://www.prevision-meteo.ch/services/json/"+"Montpellier", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://www.prevision-meteo.ch/services/json/"+ city, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 WeatherClient weatherClient= new WeatherClient(response);
