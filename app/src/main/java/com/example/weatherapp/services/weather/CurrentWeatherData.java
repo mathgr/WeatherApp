@@ -2,6 +2,8 @@ package com.example.weatherapp.services.weather;
 
 import android.util.Log;
 
+import com.example.weatherapp.services.SuffixAdder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,23 +77,23 @@ public class CurrentWeatherData {
     }
 
     public String getTemperature() {
-        return temperature;
+        return SuffixAdder.addDegreeSymbol(temperature);
     }
 
     public String getMaxTemperature() {
-        return maxTemperature;
+        return SuffixAdder.addDegreeSymbol(maxTemperature);
     }
 
     public String getMinTemperature() {
-        return minTemperature;
+        return SuffixAdder.addDegreeSymbol(minTemperature);
     }
 
     public String getHumidity() {
-        return humidity;
+        return SuffixAdder.addPercentageSymbol(humidity);
     }
 
     public String getPressure() {
-        return pressure;
+        return SuffixAdder.addAtmosphericPressureUnit(pressure);
     }
 
     public String getWindDirection() {
@@ -99,7 +101,7 @@ public class CurrentWeatherData {
     }
 
     public String getWindSpeed() {
-        return windSpeed;
+        return SuffixAdder.addSpeedUnit(windSpeed);
     }
 
     public String getCondition() {
