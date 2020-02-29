@@ -2,6 +2,8 @@ package com.example.weatherapp.services.weather;
 
 import android.util.Log;
 
+import com.example.weatherapp.services.SuffixAdder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,10 +39,10 @@ public class DayWeatherData {
     }
 
     public String getMaxTemperature() {
-        return maxTemperature;
+        return SuffixAdder.addDegreeSymbol(maxTemperature);
     }
 
     public String getMinTemperature() {
-        return minTemperature;
+        return SuffixAdder.addDegreeSymbol(minTemperature);
     }
 }

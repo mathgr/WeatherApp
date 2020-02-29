@@ -2,6 +2,8 @@ package com.example.weatherapp.services.weather;
 
 import android.util.Log;
 
+import com.example.weatherapp.services.SuffixAdder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +25,7 @@ public class HourWeatherData {
     }
 
     public String getHour() {
-        return hour;
+        return SuffixAdder.addHourSuffix(hour);
     }
 
     public String getCondition() {
@@ -35,6 +37,6 @@ public class HourWeatherData {
     }
 
     public String getTemperature() {
-        return temperature;
+        return SuffixAdder.addDegreeSymbol(temperature);
     }
 }

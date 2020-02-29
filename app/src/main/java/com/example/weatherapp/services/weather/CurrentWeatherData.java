@@ -2,6 +2,8 @@ package com.example.weatherapp.services.weather;
 
 import android.util.Log;
 
+import com.example.weatherapp.services.SuffixAdder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +28,7 @@ public class CurrentWeatherData {
     private Date currentDate = null;
 
     private ArrayList<HourWeatherData> nextHours;
+    private ArrayList<DayWeatherData> nextDays;
 
     public CurrentWeatherData(JSONObject jsonResponse) {
         try {
@@ -53,6 +56,7 @@ public class CurrentWeatherData {
             //TODO refactor
 
             nextHours = new ArrayList<>();
+            nextDays = new ArrayList<>();
 
             int nextHour;
             int day;
@@ -60,6 +64,8 @@ public class CurrentWeatherData {
                 nextHour = getNextHourInteger(i);
                 day = getDayPositionInFunctionOfNumberOfHourToAddToTheCurrentDate(i);
                 nextHours.add(new HourWeatherData(Integer.toString(nextHour), jsonResponse.getJSONObject("fcst_day_" + day).getJSONObject("hourly_data").getJSONObject(nextHour + "H00")));
+
+                nextDays.add(new DayWeatherData(jsonResponse.getJSONObject("fcst_day_" + i)));
             }
         } catch (JSONException e) {
             Log.e("CurrentWeatherData", e.getMessage());
@@ -71,23 +77,23 @@ public class CurrentWeatherData {
     }
 
     public String getTemperature() {
-        return temperature;
+        return SuffixAdder.addDegreeSymbol(temperature);
     }
 
     public String getMaxTemperature() {
-        return maxTemperature;
+        return SuffixAdder.addDegreeSymbol(maxTemperature);
     }
 
     public String getMinTemperature() {
-        return minTemperature;
+        return SuffixAdder.addDegreeSymbol(minTemperature);
     }
 
     public String getHumidity() {
-        return humidity;
+        return SuffixAdder.addPercentageSymbol(humidity);
     }
 
     public String getPressure() {
-        return pressure;
+        return SuffixAdder.addAtmosphericPressureUnit(pressure);
     }
 
     public String getWindDirection() {
@@ -95,7 +101,7 @@ public class CurrentWeatherData {
     }
 
     public String getWindSpeed() {
-        return windSpeed;
+        return SuffixAdder.addSpeedUnit(windSpeed);
     }
 
     public String getCondition() {
@@ -112,6 +118,10 @@ public class CurrentWeatherData {
 
     public ArrayList<HourWeatherData> getNextHours() {
         return nextHours;
+    }
+
+    public ArrayList<DayWeatherData> getNextDays() {
+        return nextDays;
     }
 
     private Date getCurrentDate() {

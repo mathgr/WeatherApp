@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.weatherapp.services.DownloadImageTask;
 import com.example.weatherapp.services.WeatherClient;
 import com.example.weatherapp.services.weather.CurrentWeatherData;
+import com.example.weatherapp.services.weather.DayWeatherData;
 import com.example.weatherapp.services.weather.HourWeatherData;
 
 import java.util.ArrayList;
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 CurrentWeatherData currentWeatherData = weatherClient.getCurrentWeatherData();
                 ArrayList<HourWeatherData> nextHours = currentWeatherData.getNextHours();
 
+                TextView currentCity = findViewById(R.id.current_city_name);
+                currentCity.setText(currentWeatherData.getCity());
+
                 TextView currentTemperature = findViewById(R.id.current_temperature);
                 ImageView currentConditionIcon = findViewById(R.id.current_condition_icon);
                 TextView currentCondition = findViewById(R.id.current_condition);
@@ -59,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
                 currentTemperature.setText(currentWeatherData.getTemperature());
                 new DownloadImageTask(currentConditionIcon).execute(currentWeatherData.getIconCondition());
                 currentCondition.setText(currentWeatherData.getCondition());
+
+                TextView titleForWeatherPerHour = findViewById(R.id.title_for_weather_per_hour);
+                String title = getString(R.string.today) + " " + currentWeatherData.getDayShort() + " " + currentWeatherData.getMinTemperature() + "/" + currentWeatherData.getMaxTemperature();
+                titleForWeatherPerHour.setText(title);
 
                 setUpDetail(R.id.humidity, R.drawable.water, currentWeatherData.getHumidity(), R.string.humidity_label);
                 setUpDetail(R.id.pressure, R.drawable.meter, currentWeatherData.getPressure(), R.string.pressure_label);
@@ -69,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
                 setUpNextHour(R.id.next_hour_2, nextHours.get(1));
                 setUpNextHour(R.id.next_hour_3, nextHours.get(2));
                 setUpNextHour(R.id.next_hour_4, nextHours.get(3));
+
+                setUpNextDay(R.id.next_day_1, currentWeatherData.getNextDays().get(0));
+                setUpNextDay(R.id.next_day_2, currentWeatherData.getNextDays().get(1));
+                setUpNextDay(R.id.next_day_3, currentWeatherData.getNextDays().get(2));
+                setUpNextDay(R.id.next_day_4, currentWeatherData.getNextDays().get(3));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -105,5 +118,19 @@ public class MainActivity extends AppCompatActivity {
         new DownloadImageTask(iconCondition).execute(nextHourData.getIconCondition());
         condition.setText(nextHourData.getCondition());
         temperature.setText(nextHourData.getTemperature());
+    }
+
+    private void setUpNextDay(int idRes, DayWeatherData nextDayData) {
+        View nextDayWeather = findViewById(idRes);
+        TextView dayShort = nextDayWeather.findViewById(R.id.day_short);
+        ImageView iconCondition = nextDayWeather.findViewById(R.id.condition_icon);
+        TextView condition = nextDayWeather.findViewById(R.id.condition);
+        TextView minMaxTemperature = nextDayWeather.findViewById(R.id.min_max_temperature);
+
+        dayShort.setText(nextDayData.getDayShort());
+        new DownloadImageTask(iconCondition).execute(nextDayData.getIconCondition());
+        condition.setText(nextDayData.getCondition());
+        String minMaxTmpString = nextDayData.getMinTemperature() + "/" + nextDayData.getMaxTemperature();
+        minMaxTemperature.setText(minMaxTmpString);
     }
 }
