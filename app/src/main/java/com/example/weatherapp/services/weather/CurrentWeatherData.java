@@ -35,6 +35,9 @@ public class CurrentWeatherData {
             JSONObject city = jsonResponse.getJSONObject("city_info");
             this.city = city.getString("name");
 
+            JSONObject currentCondition = jsonResponse.getJSONObject("current_condition");
+            this.iconCondition = currentCondition.getString("icon_big");
+
             JSONObject currentDay = jsonResponse.getJSONObject("fcst_day_0");
             this.dayShort = currentDay.getString("day_short");
             this.maxTemperature = currentDay.getString("tmax");
@@ -51,9 +54,6 @@ public class CurrentWeatherData {
             this.windDirection = currentHourData.getString("WNDDIRCARD10");
             this.windSpeed = currentHourData.getString("WNDSPD10m");
             this.condition = currentHourData.getString("CONDITION");
-            this.iconCondition = currentHourData.getString("ICON");
-
-            //TODO refactor
 
             nextHours = new ArrayList<>();
             nextDays = new ArrayList<>();
