@@ -49,8 +49,8 @@ public class ReglageVille extends AppCompatActivity {
         ListView listView = findViewById(R.id.listeViewViles);
         try {
             String jsonVille = loadJSON() ;
-            JSONObject json = new JSONObject(jsonVille);
-            JSONArray array = json.getJSONArray("villes");
+            //JSONObject json = new JSONObject(jsonVille);
+            JSONArray array = new JSONArray(jsonVille);
 
             List<Map<String, String>> dataList = new ArrayList<>(0);
             Map<String, String> dataItem;

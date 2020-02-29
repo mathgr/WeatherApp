@@ -2,6 +2,7 @@ package com.example.weatherapp;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -35,6 +36,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +73,8 @@ public class AjoutVille extends AppCompatActivity {
                     String nomVille = villeAfficher.getText().toString();
                     Log.i("enregistrement", "ville : " + villeAfficher.getText());
                     addVilleJson(nomVille);
-                    finish();
+                    final Intent intent = new Intent(AjoutVille.this, ReglageVille.class);
+                    AjoutVille.this.startActivity(intent);
           }}
         });
 
@@ -83,11 +86,10 @@ public class AjoutVille extends AppCompatActivity {
 
         try {
 
-            JSONObject jsonObjMain = new JSONObject(loadJSON());
+            JSONArray jsonArray = new JSONArray(loadJSON());
 
             JSONObject jsonObject = new JSONObject(); //new Json Object
 
-            JSONArray jsonArray = jsonObjMain.getJSONArray("villes");
             //Add data
             jsonObject.put( "name",name);
             //Append
