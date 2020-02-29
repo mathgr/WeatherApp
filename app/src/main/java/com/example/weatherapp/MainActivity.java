@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
                 new DownloadImageTask(currentConditionIcon).execute(currentWeatherData.getIconCondition());
                 currentCondition.setText(currentWeatherData.getCondition());
 
+                TextView titleForWeatherPerHour = findViewById(R.id.title_for_weather_per_hour);
+                String title = getString(R.string.today) + " " + currentWeatherData.getDayShort() + " " + currentWeatherData.getMinTemperature() + "/" + currentWeatherData.getMaxTemperature();
+                titleForWeatherPerHour.setText(title);
+
                 setUpDetail(R.id.humidity, R.drawable.water, currentWeatherData.getHumidity(), R.string.humidity_label);
                 setUpDetail(R.id.pressure, R.drawable.meter, currentWeatherData.getPressure(), R.string.pressure_label);
                 setUpDetail(R.id.wind_direction, R.drawable.compass, currentWeatherData.getWindDirection(), R.string.wind_direction_label);
