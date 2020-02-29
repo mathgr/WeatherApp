@@ -114,7 +114,7 @@ public class AjoutVille extends AppCompatActivity {
                 file.createNewFile();
                 fileWriter = new FileWriter(file.getAbsoluteFile());
                 bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write("{ \"villes\" : [] }");
+                bufferedWriter.write("[{\"name\" : \"Montepllier\"}]");
                 bufferedWriter.close();
             }
 
