@@ -26,6 +26,7 @@ public class CurrentWeatherData {
     private Date currentDate = null;
 
     private ArrayList<HourWeatherData> nextHours;
+    private ArrayList<DayWeatherData> nextDays;
 
     public CurrentWeatherData(JSONObject jsonResponse) {
         try {
@@ -53,6 +54,7 @@ public class CurrentWeatherData {
             //TODO refactor
 
             nextHours = new ArrayList<>();
+            nextDays = new ArrayList<>();
 
             int nextHour;
             int day;
@@ -60,6 +62,8 @@ public class CurrentWeatherData {
                 nextHour = getNextHourInteger(i);
                 day = getDayPositionInFunctionOfNumberOfHourToAddToTheCurrentDate(i);
                 nextHours.add(new HourWeatherData(Integer.toString(nextHour), jsonResponse.getJSONObject("fcst_day_" + day).getJSONObject("hourly_data").getJSONObject(nextHour + "H00")));
+
+                nextDays.add(new DayWeatherData(jsonResponse.getJSONObject("fcst_day_" + i)));
             }
         } catch (JSONException e) {
             Log.e("CurrentWeatherData", e.getMessage());
@@ -112,6 +116,10 @@ public class CurrentWeatherData {
 
     public ArrayList<HourWeatherData> getNextHours() {
         return nextHours;
+    }
+
+    public ArrayList<DayWeatherData> getNextDays() {
+        return nextDays;
     }
 
     private Date getCurrentDate() {

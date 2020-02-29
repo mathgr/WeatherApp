@@ -26,7 +26,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/weather_by_hours_layout" />
 
-    <!--Insert next temperature of next days -->
+    <include
+        layout="@layout/weather_per_day_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weather_per_day_layout" />
 
     <include
         layout="@layout/details_current_weather_grid"
