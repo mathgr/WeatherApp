@@ -193,7 +193,7 @@ public class ReglageVille extends AppCompatActivity {
                 file.createNewFile();
                 fileWriter = new FileWriter(file.getAbsoluteFile());
                 bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write("[{\"name\" : \"Montepllier\"}]");
+                bufferedWriter.write("[{\"name\" : \"Montpellier\"}]");
                 bufferedWriter.close();
                 Log.i("creation file", file.getPath());
             }
