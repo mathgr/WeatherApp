@@ -83,9 +83,7 @@ public class AjoutVille extends AppCompatActivity {
 
 
     public void addVilleJson(String name){
-
         try {
-
             JSONArray jsonArray = new JSONArray(loadJSON());
 
             JSONObject jsonObject = new JSONObject(); //new Json Object

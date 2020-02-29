@@ -30,8 +30,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RequestQueue queue;
-
-    public static String city = "montpellier";
+    public String city ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.main);
         ImageView ville = findViewById(R.id.ville);
+
+        Intent intent = getIntent();
+        this.city = intent.getStringExtra("ville");
+
+        if(this.city == null){
+            this.city = "Montpellier";
+        }
 
         ville.setOnClickListener(new View.OnClickListener() {
             @Override

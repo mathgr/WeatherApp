@@ -2,15 +2,20 @@ package com.example.weatherapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,8 +51,55 @@ public class ReglageVille extends AppCompatActivity {
             }
         });
 
-        ListView listView = findViewById(R.id.listeViewViles);
+        final ListView listView = findViewById(R.id.listeViewViles);
+        loadData();
+        ImageButton returnBtn = findViewById(R.id.returnBtn);
+        returnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String res = "Ville supprimée ! ";
+                Toast toast = Toast.makeText(ReglageVille.this, res, Toast.LENGTH_SHORT);
+                toast.show();
+                deleteVille((int)id);
+                loadData();
+                return true;
+
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String name ="";
+                JSONObject villeName = null;
+                try {
+                    villeName = new JSONObject(parent.getItemAtPosition(position).toString());
+                    name = villeName.getString("villeName");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                final Intent intent = new Intent(ReglageVille.this,MainActivity.class);
+                intent.putExtra("ville",name);
+                Log.i("ville selectionné",name);
+                ReglageVille.this.startActivity(intent);
+            }
+        });
+
+
+    }
+
+    public void loadData(){
         try {
+            final ListView listView = findViewById(R.id.listeViewViles);
             String jsonVille = loadJSON() ;
             //JSONObject json = new JSONObject(jsonVille);
             JSONArray array = new JSONArray(jsonVille);
@@ -78,17 +130,56 @@ public class ReglageVille extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ImageButton returnBtn = findViewById(R.id.returnBtn);
-        returnBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        // TextView output = findViewById(R.id.output);
-        //Intent intent = getIntent();
-        //String text = intent.getExtras().getString(EXTRA_MESSAGE);
     }
+
+
+
+
+    public void deleteVille(int idx){
+
+        try {
+            JSONArray jsonArray = new JSONArray(loadJSON());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                jsonArray.remove(idx);
+            }
+            File file = new File(ReglageVille.this.getFilesDir(), "villesfav.json");
+            writeJsonFile(file,jsonArray.toString());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static void writeJsonFile(File file, String json) {
+        BufferedWriter bufferedWriter = null;
+        try {
+
+            if (!file.exists()) {
+                Log.e("App","file not exist");
+                file.createNewFile();
+            }
+
+            FileWriter fileWriter = new FileWriter(file);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(json);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedWriter != null) {
+                    bufferedWriter.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
 
     public String loadJSON() {
         String json = null;
