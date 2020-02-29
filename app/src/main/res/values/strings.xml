@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">My Météo</string>
     <string name="reglage_ville" >Ville</string>
     <string name="humidity_label">Humidité</string>
     <string name="pressure_label">Pression atmosphérique</string>
