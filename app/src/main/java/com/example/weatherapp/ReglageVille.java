@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +44,8 @@ public class ReglageVille extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ville_display);
-        ImageButton addVille = findViewById(R.id.addVille);
+
+        ImageView addVille = findViewById(R.id.addVille);
         addVille.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +56,8 @@ public class ReglageVille extends AppCompatActivity {
 
         final ListView listView = findViewById(R.id.listeViewViles);
         loadData();
-        ImageButton returnBtn = findViewById(R.id.returnBtn);
+
+        ImageView returnBtn = findViewById(R.id.returnBtn);
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,9 +70,8 @@ public class ReglageVille extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String res = "Ville supprimée ! ";
-                Toast toast = Toast.makeText(ReglageVille.this, res, Toast.LENGTH_SHORT);
-                toast.show();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayoutCityDisplay), R.string.city_deleted , Snackbar.LENGTH_SHORT);
+                snackbar.show();
                 deleteVille((int)id);
                 loadData();
                 return true;
@@ -94,7 +97,22 @@ public class ReglageVille extends AppCompatActivity {
             }
         });
 
+        ImageView questionMark = findViewById(R.id.infoVille);
+        questionMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayoutCityDisplay), R.string.delete_city_info , Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        loadData();
     }
 
     public void loadData(){

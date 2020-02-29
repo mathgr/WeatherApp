@@ -22,25 +22,26 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
+            android:padding="8dp"
+            android:maxWidth="40dp"
             android:src="@drawable/refresh"
             android:adjustViewBounds="true"
-            android:maxWidth="24dp"
             android:id="@+id/refresh_weather_data" />
 
         <ImageView
             android:id="@+id/ville"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
+            android:padding="8dp"
+            android:maxWidth="40dp"
             android:src="@drawable/settings"
-            android:adjustViewBounds="true"
-            android:maxWidth="24dp"/>
+            android:adjustViewBounds="true" />
 
     </LinearLayout>
 
-    <include layout="@layout/current_weather"/>
-
+    <include layout="@layout/current_weather" />
 
 
 </LinearLayout>

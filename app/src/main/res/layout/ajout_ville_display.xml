@@ -3,26 +3,58 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <AutoCompleteTextView
-        android:id="@+id/searchVilleText"
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/searchVille"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="rechercher"
-        android:layout_gravity="end">
-    </Button>
+        <ImageView
+            android:id="@+id/returnBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_margin="10dp"
+            android:padding="8dp"
+            android:maxWidth="40dp"
+            android:layout_gravity="start"
+            android:src="@drawable/arrow" />
 
-    <TextView
-        android:id="@+id/villeRechercher"
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_city"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:textColor="#000000"
-        android:textSize="30dp" />
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <AutoCompleteTextView
+            android:id="@+id/searchVilleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/searchVille"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"
+            android:text="@string/find" />
+
+        <TextView
+            android:id="@+id/villeRechercher"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

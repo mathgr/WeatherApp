@@ -9,4 +9,11 @@
     <string name="today">Aujourd\'hui</string>
     <string name="next_days">Les prochains jours</string>
     <string name="detailed_information">Informations détaillés</string>
+    <string name="my_favorite_cities">Mes villes</string>
+    <string name="add_city">Ajouter une ville</string>
+    <string name="find">Rechercher</string>
+    <string name="loading">Chargement...</string>
+    <string name="no_city_found">Aucune ville trouvée.</string>
+    <string name="delete_city_info">Appuyer sur une ville pour la sélectionner.\nAppuyer longuement pour la supprimer.</string>
+    <string name="city_deleted">Ville supprimée.</string>
 </resources>

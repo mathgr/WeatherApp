@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.weatherapp.services.SuffixAdder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +49,10 @@ public class AjoutVille extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "message.extra";
     public final static String TAG = "RechercheVille";
 
+    TextView villeRechercher;
+
+    private String currentCity;
+
     final String BASE_URL = "https://www.prevision-meteo.ch/services/json/";
     protected RequestQueue queue ;
 
@@ -54,33 +60,54 @@ public class AjoutVille extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ajout_ville_display);
+
         final AutoCompleteTextView textRecherche = findViewById(R.id.searchVilleText);
+
+        villeRechercher = findViewById(R.id.villeRechercher);
+        villeRechercher.setClickable(false);
+
+        ImageView returnBtn = findViewById(R.id.returnBtn);
+        returnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         final Button rechercher = findViewById(R.id.searchVille);
         rechercher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                villeRechercher.setText(R.string.loading);
+                villeRechercher.setClickable(false);
                 rechercher(textRecherche.getText().toString());
 
             }
         });
 
-        final TextView villeAfficher = findViewById(R.id.villeRechercher);
-        villeAfficher.setOnClickListener(new View.OnClickListener() {
+        villeRechercher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(villeAfficher.getText()!=null) {
-                    String nomVille = villeAfficher.getText().toString();
-                    Log.i("enregistrement", "ville : " + villeAfficher.getText());
-                    addVilleJson(nomVille);
-                    final Intent intent = new Intent(AjoutVille.this, ReglageVille.class);
-                    AjoutVille.this.startActivity(intent);
-          }}
+                if (villeRechercher.isClickable()) {
+                    if (villeRechercher.getText() != null) {
+                        String nomVille = villeRechercher.getText().toString();
+                        Log.i("enregistrement", "ville : " + villeRechercher.getText());
+                        addVilleJson(currentCity);
+                        finish();
+                    }
+                }
+            }
         });
 
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        villeRechercher.setClickable(false);
+    }
 
     public void addVilleJson(String name){
         try {
@@ -173,18 +200,22 @@ public class AjoutVille extends AppCompatActivity {
                         Log.i(TAG,"Response" + response);
 
                         try{
-                            final TextView villeRechercher = findViewById(R.id.villeRechercher);
                             JSONObject json = new JSONObject(response);
                             JSONObject ville = json.getJSONObject("city_info");
                             String name = ville.getString("name");
+                            String country = ville.getString("country");
                             JSONObject current = json.getJSONObject("current_condition");
 
                             String temperatureCourante = current.getString("tmp");
 
                             Log.i(TAG , "Ville : "+name +"  "+ temperatureCourante + "°C");
 
-                            villeRechercher.setText(name);
+                            currentCity = name;
+                            String cityText = name + ", " + country +  " (" + SuffixAdder.addDegreeSymbol(temperatureCourante) + ")";
+                            villeRechercher.setText(cityText);
+                            villeRechercher.setClickable(true);
                         } catch (JSONException e) {
+                            villeRechercher.setText(R.string.no_city_found);
                             e.printStackTrace();
                         }
 

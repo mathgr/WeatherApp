@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadDataFromApi(city);
 
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.update_weather_data_success , Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.update_weather_data_success , Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }
         });

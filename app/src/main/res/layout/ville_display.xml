@@ -1,58 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/myCoordinatorLayoutCityDisplay"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
-
-
-
-    <androidx.appcompat.widget.Toolbar
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <ImageButton
-            android:id="@+id/returnBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:adjustViewBounds="true"
-            android:background="#00FFFFFF"
-            android:src="@drawable/return_btn">
 
-        </ImageButton>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ajouter des Villes"
-            android:textSize="18sp" />
 
-        <ImageButton
-            android:id="@+id/addVille"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="10dp"
-            android:background="#00FFFFFF"
-
-            app:srcCompat="@android:drawable/ic_menu_add" />
-    </androidx.appcompat.widget.Toolbar>
-
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ListView
-                android:id="@+id/listeViewViles"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/returnBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_margin="10dp"
+                android:padding="8dp"
+                android:maxWidth="40dp"
+                android:layout_gravity="start"
+                android:src="@drawable/arrow">
+
+            </ImageView>
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/my_favorite_cities"
+                android:layout_gravity="center"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/addVille"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_margin="10dp"
+                android:padding="8dp"
+                android:maxWidth="40dp"
+                android:layout_gravity="end"
+                android:src="@drawable/more" />
+
+            <ImageView
+                android:id="@+id/infoVille"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_margin="10dp"
+                android:padding="8dp"
+                android:maxWidth="40dp"
+                android:layout_gravity="end"
+                android:src="@drawable/question" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ListView
+                    android:id="@+id/listeViewViles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
 
 
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

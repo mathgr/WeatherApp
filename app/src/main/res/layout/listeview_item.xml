@@ -4,11 +4,15 @@
     android:layout_height="50dp">
 
     <TextView
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:id="@+id/villeName"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:paddingTop="5dp" />
 
     <TextView
         android:id="@+id/villeTemp"
