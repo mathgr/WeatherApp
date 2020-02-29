@@ -16,6 +16,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -43,8 +48,7 @@ public class ReglageVille extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listeViewViles);
         try {
-            String jsonVille = loadJSONFromAsset(ReglageVille.this) ;
-            Log.i("Json", jsonVille);
+            String jsonVille = loadJSON() ;
             JSONObject json = new JSONObject(jsonVille);
             JSONArray array = json.getJSONArray("villes");
 
@@ -86,21 +90,31 @@ public class ReglageVille extends AppCompatActivity {
         //String text = intent.getExtras().getString(EXTRA_MESSAGE);
     }
 
-    public String loadJSONFromAsset(Context context) {
+    public String loadJSON() {
         String json = null;
+        FileWriter fileWriter = null ;
+        BufferedWriter bufferedWriter = null ;
+        File file = new File(ReglageVille.this.getFilesDir(), "villesfav.json");
+        String line = "" ;
         try {
-            InputStream is = context.getAssets().open("villesfav.json");
+            StringBuffer output = new StringBuffer();
+            if(!file.exists()){
+                file.createNewFile();
+                fileWriter = new FileWriter(file.getAbsoluteFile());
+                bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write("{ \"villes\" : [] }");
+                bufferedWriter.close();
+                Log.i("creation file", file.getPath());
+            }
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while ((line = bufferedReader.readLine())!= null ) {
+                output.append(line + "\n");
+            }
 
-            int size = is.available();
-
-            byte[] buffer = new byte[size];
-
-            is.read(buffer);
-
-            is.close();
-
-            json = new String(buffer, "UTF-8");
-
+            json = output.toString();
+            Log.i("find file", json);
+            bufferedReader.close();
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -108,8 +122,8 @@ public class ReglageVille extends AppCompatActivity {
         }
 
         return json;
-
     }
+
 
     @Override
     public void onBackPressed() {

@@ -27,7 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -62,15 +67,100 @@ public class AjoutVille extends AppCompatActivity {
         villeAfficher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if(villeAfficher.getText()!=null) {
-                   Log.i("enregistrement", "ville : " + villeAfficher.getText());
-
-               }}
+                if(villeAfficher.getText()!=null) {
+                    String nomVille = villeAfficher.getText().toString();
+                    Log.i("enregistrement", "ville : " + villeAfficher.getText());
+                    addVilleJson(nomVille);
+                    finish();
+          }}
         });
 
 
     }
 
+
+    public void addVilleJson(String name){
+
+        try {
+
+            JSONObject jsonObjMain = new JSONObject(loadJSON());
+
+            JSONObject jsonObject = new JSONObject(); //new Json Object
+
+            JSONArray jsonArray = jsonObjMain.getJSONArray("villes");
+            //Add data
+            jsonObject.put( "name",name);
+            //Append
+            jsonArray.put(jsonObject);
+            File file = new File(AjoutVille.this.getFilesDir(), "villesfav.json");
+            writeJsonFile(file,jsonArray.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public String loadJSON() {
+        String json = null;
+        FileWriter fileWriter = null ;
+        BufferedWriter bufferedWriter = null ;
+        try {
+
+            StringBuffer output = new StringBuffer();
+            File file = new File(AjoutVille.this.getFilesDir(), "villesfav.json");
+
+            if(!file.exists()){
+                file.createNewFile();
+                fileWriter = new FileWriter(file.getAbsoluteFile());
+                bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write("{ \"villes\" : [] }");
+                bufferedWriter.close();
+            }
+
+            FileReader fileReader = new FileReader(file);
+            String line = "" ;
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while ((line = bufferedReader.readLine())!= null ) {
+                output.append(line + "\n");
+            }
+            json= output.toString();
+            bufferedReader.close();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        return json;
+
+    }
+
+    public static void writeJsonFile(File file, String json) {
+        BufferedWriter bufferedWriter = null;
+        try {
+
+            if (!file.exists()) {
+                Log.e("App","file not exist");
+                file.createNewFile();
+            }
+
+            FileWriter fileWriter = new FileWriter(file);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(json);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedWriter != null) {
+                    bufferedWriter.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
 
     private void rechercher(String nomVille) {
@@ -92,9 +182,8 @@ public class AjoutVille extends AppCompatActivity {
                             String temperatureCourante = current.getString("tmp");
 
                             Log.i(TAG , "Ville : "+name +"  "+ temperatureCourante + "°C");
-                            String infoVille = name +"  "+ temperatureCourante + "°C" ;
 
-                            villeRechercher.setText(infoVille);
+                            villeRechercher.setText(name);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
